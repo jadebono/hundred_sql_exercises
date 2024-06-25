@@ -27,8 +27,10 @@ The recommended approach is to work your way through every exercise, drilling ea
 
 Oracle SQL and MySQL implement the SQL standard a little differently. For this reason, these exercises have been adapted to both implementations.
 
-For exercises that have been adapted to Oracle SQL, click here: **[Oracle SQL Exercises](./oracle_sql.md)**.
-For exercises that have been adapted to MySQL, click here: **[MySQL exercises](./mysql.md)**.
+For exercises that have been adapted to Oracle SQL,  
+click here: **[Oracle SQL Exercises](./oracle_sql.md)**.  
+For exercises that have been adapted to MySQL,  
+click here: **[MySQL exercises](./mysql.md)**.
 
 ## `Sources`
 
