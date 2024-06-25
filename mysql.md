@@ -1,7 +1,7 @@
 # `100 MySQL Exercises`
 
-[Joseph Anthony Debono](https://github.com/jadebono).  
-Email [Joseph](joe@jadebono.com).
+Written by: [Joseph Anthony Debono](https://github.com/jadebono).  
+Email: [Joseph Debono](joe@jadebono.com).
 
 These exercises have been adapted for MySQL, will use syntax specific to MySQL.
 
@@ -869,6 +869,165 @@ INSERT INTO coffee_reviews (id, location, time_of_day, review_date, coffee_type,
 (5, 'Starbuzz Coffee', '2024-04-23 07:48:00', '2024-04-23', 'rocky road', 10, 'marshmallows!'),
 (6, 'Krispy King', '2024-11-25 08:56:00', '2024-11-25', 'plain glazed', 8, 'maple syrup glaze');
 
+```
+
+---
+
+## `Question 24 - Text data roping`
+
+MySQL can compare text data with comparison operators in a similar way to numeric values. The comparison operators evaluate everything alphabetically. From the table `easy_drinks`, retrieve all the drinks in the column DRINK_NAME that that begin with the letter L and the letter L ONLY.
+
+Notes:
+
+1. Case matters here. If the first letter in the field is lowercase, but you're searching by uppercase, it will not be retrieved even though the letter may not be the same;
+1. The results may not be retrieved alphabetically. There will be exercises further down dealing with this issue.
+
+Solution:
+
+```sql
+select * from easy_drinks
+where drink_name >= 'L'
+    and drink_name <= 'M';
+
+```
+
+---
+
+## `Question 25 -The BETWEEN keyword`
+
+Instead of constructing two clauses linked by _and_, use the keyword _between_ retrieve all drinks whose DRINK_NAME begins 'H' and begins with 'L'. Then write another query to retrieve all records whose AMOUNT1 column is between 1.5 and 2. Chain both queries into one script.
+
+Notes:
+
+1. The first part of this exercise is tricky because though MySQL will retrieve records with data beginning with 'H', it will stop at the letter just before the second letter specified. In other words if the second letter specified is 'Z', the last record it retrieves will be that of data beginning with 'Y'.
+
+Solution:
+
+```sql
+select * from easy_drinks
+where drink_name between 'H' and 'M';
+
+select * from easy_drinks
+where amount1 between 1.5 and 2;
+```
+
+---
+
+## `Question 26 - Selecting by OR`
+
+Write a query to retrieve all records from `easy_drinks` that have 'cherry juice' in their MAIN OR SECOND columns. Retrieve only the data in column DRINK_NAME that satisfies these conditions
+
+Solution:
+
+```sql
+select drink_name from easy_drinks
+where main = 'cherry juice'
+    or second = 'cherry juice';
+```
+
+---
+
+## `Question 27 - Not equal`
+
+Oracle SQL uses an operator to signify 'not equal' that is different from other computer languages. Write a query to retrieve all records from the `easy_drinks` table whose MAIN column is not equal to 'soda'.
+
+Notes:
+
+1. The 'not equal' operator in Oracle SQL is <>.
+
+Solution:
+
+```sql
+select * from easy_drinks
+where main <> 'soda';
+```
+
+---
+
+## `Question 28 - Retrieving records with null values`
+
+Create a table called `null_values_table`. Give it the following columns: ID, FIRST_NAME, LAST_NAME, HOBBIES. Fill it with some data leaving some fields in the HOBBIES column null. Then write a query to retrieve all those records with a null value in their HOBBIES column.
+
+Notes:
+
+1. The correct way of querying columns that have null values is by using the keywords _is null_.
+
+Solution:
+
+```sql
+select * from null_values_table
+where hobbies is null;
+```
+
+---
+
+## `Question 29 - Wildcards and the LIKE keyword`
+
+The _like_ keyword uses wildcards to search for data on the basis of partially supplied data. In the `my_contacts` table, retrieve all records with data starting with 'women' in the SEEKING column. Then write a query retrieving all records that end in 'oda' in the MAIN column in the `easy_drinks` table. Chain both queries into one script.
+
+Notes:
+
+1. You can use the % (percent) wildcard combined with your supplied data. For example 'women%' retrieves records of all data in the specified column that starts with the word 'women'. Inverting the position would retrieve records of all data in the specified column that ends with the word 'women';
+1. The wildcard for a single character is the \_ (underscore) character;
+
+Solution:
+
+```sql
+select * from my_contacts
+where seeking like 'women%';
+
+select * from easy_drinks
+where main like '_oda';
+```
+
+---
+
+## `Question 30 - The IN keyword`
+
+Create a table called `black_book`with ID (number) DATE, NAME (varchar2(20)) and RATING (varchar2(20)) columns. Make them all _not_ _null_. ID should be the primary key.
+
+Fill it with the following records:  
+(0, 'Alex', 'innovative')  
+(1, 'James', 'boring')  
+(2, 'Ian', 'fabulous')  
+(3, 'Boris', 'ho hum')  
+(4, 'Melvin', 'plebeian')  
+(5, 'Eric', 'pathetic')  
+(6, 'Anthony', 'delightful')  
+(7, 'Sammy', 'pretty good')  
+(8, 'Ivan', 'dismal')  
+(9, 'Vic', 'ridiculous')
+
+Once you have created the table, retrieve all records that have a positive rating, i.e. innovative, fabulous, delightful, pretty good. Chain both queries into one script.
+
+Notes:
+
+1. Use the _in_ keyword and provide the list of matching data in brackets.
+
+Solution:
+
+```sql
+create table black_book (
+    id int not null primary key,
+    date_name varchar(20) not null,
+    rating varchar(20) not null
+);
+
+insert into black_book (id, date_name, rating)
+values
+(0, 'Alex', 'innovative'),
+(2, 'Ian', 'fabulous'),
+(3, 'Boris', 'ho hum'),
+(4, 'Melvin', 'plebeian'),
+(5, 'Eric', 'pathetic'),
+(6, 'Anthony', 'delightful'),
+(7, 'Sammy', 'pretty good'),
+(8, 'Ivan', 'dismal'),
+(9, 'Vic', 'ridiculous');
+
+select *
+from black_book
+where rating in ('innovative', 'fabulous', 'delightful', 'pretty good');
 ```
 
 ---

@@ -1,8 +1,7 @@
 # `100 Oracle SQL Exercises`
 
-
-[Joseph Anthony Debono](https://github.com/jadebono).  
-Email [Joseph](joe@jadebono.com).
+Written by: [Joseph Anthony Debono](https://github.com/jadebono).  
+Email: [Joseph Debono](joe@jadebono.com).
 
 These exercises have been adapted for Oracle SQL, will use syntax specific to Oracle SQL.
 
@@ -715,7 +714,7 @@ select * from my_contacts;
 
 ## `Question 16 - Create a new table with a column with a default value`
 
-Create a new table called `doughnut_list`. The table should have four columns: ID which should be the primary key, DOUGHNUT_NAME (varchar2(10)), DOUGHNUT_TYPE (varchar2(10)), both of which should be _not null_. Add a column called DOUGHNUT_COST which should be a float of 3 numbers with 2 behind the decimal point. DOUGHNUT_COST should have a default value of 1.00. Then fill them with these records:
+Create a new table called `doughnut_list`. The table should have four columns: ID which should be the primary key, DOUGHNUT*NAME (varchar2(10)), DOUGHNUT_TYPE (varchar2(10)), both of which should be \_not null*. Add a column called DOUGHNUT_COST which should be a float of 3 numbers with 2 behind the decimal point. DOUGHNUT_COST should have a default value of 1.00. Then fill them with these records:
 
 (0, Blooberry, filled, 2.12)  
 (1, Cinnamondo, ring, 1.35)  
@@ -1057,7 +1056,7 @@ where main like '_oda';
 
 ## `Question 30 - The IN keyword`
 
-Create a table called `black_book`with ID (number) DATE, NAME (varchar(20)) and RATING (varchar(20)) columns. Make them all _not_ _null_. ID should be the primary key.
+Create a table called `black_book`with ID (number) DATE, NAME (varchar2(20)) and RATING (varchar2(20)) columns. Make them all _not_ _null_. ID should be the primary key.
 
 Fill it with the following records:  
 (0, 'Alex', 'innovative')  
@@ -1101,6 +1100,8 @@ insert into black_book (id, date_name, rating) values (9, 'Vic', 'ridiculous');
 select *
 from black_book
 where rating in ('innovative', 'fabulous', 'delightful', 'pretty good');
+
+
 ```
 
 ---
@@ -2526,7 +2527,6 @@ Notes:
 1. A subquery is a query that returns columns or a table of columns that you can then reference in the outer query;
 1. Typical syntax is something like this: `select COLUMN_A from (select * from my_table)`. The query in brackets is the subquery, which will retrieve all the columns from my_table and the outward query will select the first column (assuming that COLUMN_A is the first column of the returned data) of the table returned by the first query.
 
-
 ```sql
 select first_name, last_name from
 (select first_name, last_name from customers
@@ -3415,8 +3415,7 @@ Create a table `course` with the columns CID, COURSE_NAME and COURSE_LEVEL. Give
 (3, 'Object-Oriented Design Patterns in Java', 'advanced')  
 (4, 'Practical Linux Administration', 'advanced')  
 (5, 'Learn Javascript', 'beginner')  
-(6, 'Advanced Hardware Security', 'advanced')  
-
+(6, 'Advanced Hardware Security', 'advanced')
 
 Then create a view of the table.
 
@@ -3425,15 +3424,13 @@ Notes:
 1. Views are virtual tables based on the output of a query;
 1. Instead of query a particular table/s, you can create a query selecting multiple columns and then put them into a view, which is essentially a virtual table;
 1. Views don't store data physically, it just provides a way to present data from one or tables in a structured manner without duplicating data/tables etc;
-1. Some views  allow data to be inserted updated or deleted providing the view maps directly to a single table and does not contain complex joins, aggregations or distinct clauses;
+1. Some views allow data to be inserted updated or deleted providing the view maps directly to a single table and does not contain complex joins, aggregations or distinct clauses;
 1. The syntax to create a view is simple. Just prefix the query with _create view v_view name as_.
-
-
 
 ```sql
 create table course (
     cid number not null primary key,
-    course_name varchar2(50), 
+    course_name varchar2(50),
     course_level varchar2(20)
 );
 
@@ -3487,7 +3484,7 @@ create view v_employee_accounting as
 select * from employees
 where department = 'accounting';
 
-create view v_employee_sales as 
+create view v_employee_sales as
 select * from employees
 where department = 'sales';
 
@@ -3500,6 +3497,7 @@ select * from v_employee_sales;
 
 select * from v_employee_private;
 ```
+
 ---
 
 ## `Question 92 - String concatenation with math`
@@ -3560,9 +3558,10 @@ Find the total population in the US. Create a table called `us_state_population`
 Then write a query that produces a column called TOTAL_US_POPULATION containing one row saying 'The total population of the US is (total of all the numbers in the POPULATION column)'.
 
 Notes:
+
 1. For this exercise you need to use the concatenation operator to combine the phrase 'The total population of the US is ' with the total of all the numbers in the population column;
 1. The concatenation operator is ||, two pipes;
-2. The concatenation operator concatenates strings together. 
+1. The concatenation operator concatenates strings together.
 
 Solution:
 
@@ -3655,16 +3654,16 @@ select 'The total population of the US is ' || sum(population) / 1000000 || ' mi
 
 ## `Question 95 - Alternative Quote Operator`
 
-Write a query for the table `us_state_population` that produces a column called TOTAL_US_POPULATION containing one row saying 'The US's total population is (total of all the numbers in the POPULATION column) million, the country of the 50 *s'.
+Write a query for the table `us_state_population` that produces a column called TOTAL_US_POPULATION containing one row saying 'The US's total population is (total of all the numbers in the POPULATION column) million, the country of the 50 \*s'.
 
 Notes:
+
 1. The outputted string contains a number of special characters such as the single quote and the star;
 1. Usually, if you insert them between single quotes, Oracle SQL will throw an error;
 1. however, if you enclose your string with the alternative quote operator, you can include any character without problems;
 1. The alternative quote operator is q'[You can input any character here]';
 1. Apart from the square brackets, [], you can also use the logical operators <>;
 1. So both these are valid options for the alternative quote operator: q'[]' and q'<>'.
-
 
 Solution:
 
@@ -3679,6 +3678,7 @@ select q'[The "US's" population is ]' || sum(population) / 1000000 || q'[ millio
 Find the most populous US state. Write a query for the table `us_state_population` that produces a column called HIGHEST_POPULATION containing one row saying '(State with the highest population)'s population is the highest in the US'.
 
 Note:
+
 1. You're going to have to return the state with the highest population with a function in a subquery;
 1. And use it as a condition.
 
@@ -3696,6 +3696,7 @@ Find the second most populous US state. Write a query for the table `us_state_po
 Solution:
 
 Notes:
+
 1. You're going to have to nest subqueries here;
 1. Loosely speaking, you have the select all fields in the population column with a value lower than the greatest and then select the greatest value from the records returned by that query.
 
@@ -3707,6 +3708,7 @@ where population = (select max(population) from us_state_population
 ```
 
 ---
+
 ## `Question 98 - Revisiting question 97`
 
 Surely there has to be a cleaner way of finding the second most populous state in the US. Find it.
