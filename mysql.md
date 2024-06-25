@@ -1031,3 +1031,147 @@ where rating in ('innovative', 'fabulous', 'delightful', 'pretty good');
 ```
 
 ---
+
+## `Question 31 - NOT IN`
+
+Write a query for the table `black_book` retrieving all records that do not have a positive rating.
+
+Hint:
+
+1. This will work similarly to the query in Question 29, but what you're looking for is _not_ _in_ the list of positive ratings.
+
+Solution:
+
+```sql
+select *
+from black_book
+where rating not in ('innovative', 'fabulous', 'delightful', 'pretty good');
+```
+
+---
+
+## `Question 32 - More uses of NOT`
+
+Write a query retrieving all data from `easy_drinks` whose DRINK_NAME does NOT begin with a letter falling in the range between 'H' and begins with 'L'. Then write another query to retrieve all records from `my_contacts` whose SEEKING column has data that does not start with "women'. Chain both queries into one script.
+
+Solution:
+
+```sql
+select *
+from easy_drinks
+where drink_name not between 'H' and 'M';
+
+select *
+from my_contacts
+where seeking not like 'women%';
+```
+
+---
+
+## `Question 33 - Similar records`
+
+Create a table called `clown_info` with the following columns: ID (int), NAME (varchar(20)), LAST_SEEN (varchar(255)), APPEARANCE (varchar(255)), ACTIVITIES (varchar(255)). Only ID and NAME should be required. Then fill it with the following values:
+
+(0, 'Elsie', 'Cherry Hill Senior Center', 'F, red hair, green dress, huge feet, balloons', 'little car')  
+(1, 'Pickles','Jack Green's party', 'M, orange hair, blue suit, huge feet', 'mime')  
+(2, 'Snuggles', 'Ball-Mart', 'F, yellow shirt, baggy red pants, horn', 'umbrella')  
+(3, 'Mr. Hobo', 'BG Circus', 'M, cigar, black hair', 'tiny hat,violin')  
+(4, 'Clarabelle', 'Belmont Senior Center', 'F, pink hair, huge flower, blue dress', 'yelling, dancing')  
+(5, 'Scooter', 'Oakland Hospital', 'M, blue hair, red suit, huge nose', 'balloons')  
+(6, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing')  
+(7, 'Babe,Earl's Autos', 'F, all pink and sparkly', 'balancing', 'little car')  
+(8, 'Bonzo', null, 'M, in drag, polka dotted dress', 'singing, dancing')  
+(9, 'Sniffles', 'Tracy's', 'M, green and purple suit, pointy nose', null)  
+(10, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing')  
+(11, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing, singling')  
+(12, 'Zippo', 'Oakland Hospital', 'F, orange suit, baggy pants', 'dancing, singling')  
+(13, 'Zippo', 'Tracy's', 'F, orange suit, baggy pants', 'dancing, singling')  
+(14, 'Zippo', 'Ball-Mart', 'F, orange suit, baggy pants', 'dancing, singling')  
+(15, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing, singling')  
+(16, 'Zippo', 'Oakland Hospital', 'F, orange suit, baggy pants', 'dancing, singling')
+
+Solution:
+
+```sql
+create table clown_info (
+    id int not null,
+    name varchar(20) not null,
+    last_seen varchar(255),
+    appearance varchar(255),
+    activities varchar(255)
+);
+
+insert into clown_info (id, name, last_seen, appearance, activities) values (0, 'Elsie', 'Cherry Hill Senior Center', 'F, red hair, green dress, huge feet, balloons', 'little car'),
+(1, 'Pickles','Jack Green''s party', 'M, orange hair, blue suit, huge feet', 'mime'),
+(2, 'Snuggles', 'Ball-Mart', 'F, yellow shirt, baggy red pants, horn', 'umbrella'),
+(3, 'Mr. Hobo', 'BG Circus', 'M, cigar, black hair', 'tiny hat, violin'),
+(4, 'Clarabelle', 'Belmont Senior Center', 'F, pink hair, huge flower, blue dress', 'yelling, dancing'),
+(5, 'Scooter', 'Oakland Hospital', 'M, blue hair, red suit, huge nose', 'balloons'),
+(6, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing'),
+(7, 'Babe,Earl''s Autos', 'F, all pink and sparkly', 'balancing', 'little car'),
+(8, 'Bonzo', null, 'M, in drag, polka dotted dress', 'singing, dancing'),
+(9, 'Sniffles', 'Tracy''s', 'M, green and purple suit, pointy nose', null),
+(10, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing'),
+(11, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing, singling'),
+(12, 'Zippo', 'Oakland Hospital', 'F, orange suit, baggy pants', 'dancing, singling'),
+(13, 'Zippo', 'Tracy''s', 'F, orange suit, baggy pants', 'dancing, singling'),
+(14, 'Zippo', 'Ball-Mart', 'F, orange suit, baggy pants', 'dancing, singling'),
+(15, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing, singling'),
+(16, 'Zippo', 'Oakland Hospital', 'F, orange suit, baggy pants', 'dancing, singling');
+```
+
+---
+
+## `Question 34 - Retrieve all records with a particular value`
+
+The clown Zippo in the table `clown_info' has multiple records. Retrieve them all.
+
+Solution:
+
+```sql
+select *
+from clown_info
+where name = 'Zippo';
+```
+
+Note:
+
+1. The records are retrieved in no order, so with this query, there is no way of knowing the sequence of the records.
+
+---
+
+## `Question 35 - Delete a record`
+
+In the table `clown_info`, there are two records for the clown Zippo that have 'dancing' in the ACTIVITIES column. Delete these records. Then retrieve all the records. Finally reinsert the following values:
+
+(6, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing')  
+(10, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing')
+
+Finally, retrieve all records. Chain all queries into one script.
+
+Notes:
+
+1. use the keyword _delete_ instead of _select_;
+1. Observe that in the case of _delete_ it is followed by the keyword _from_ rather than the syntax of _select_;
+1. Observe that the last two records are appended to the end of the table, irrespective of the value of the ID column;
+1. You can use the other keywords done so far, _where_, _and_, _or_, _between_, _like_ etc. with _delete_;
+
+CAUTION:
+`delete from clown_info` deletes all records. In this case it is similar to `truncate table clown_info`.
+
+Solution:
+
+```sql
+delete from clown_info
+where name = 'Zippo' and activities = 'dancing';
+
+select * from clown_info;
+
+insert into clown_info (id, name, last_seen, appearance, activities) 
+values (6, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing'),
+(10, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing');
+
+select * from clown_info
+```
+
+---
