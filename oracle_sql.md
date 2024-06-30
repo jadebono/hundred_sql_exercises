@@ -1358,7 +1358,7 @@ insert into drink_info (id, drink_name, cost, carbs, colour, ice, calories) valu
 
 ## `Question 37 - Updating a column with UPDATE`
 
-Update the table `coffee_reviews` to change all values of 'plain glazed' in the column COFFEE*TYPE to 'glazed'. Use the keyword \_update* for this. Then retrieve all records from the table. Chain the queries into one script.
+Update the table `coffee_reviews` to change all values of 'plain glazed' in the column COFFEE*TYPE to 'glazed'. Use the keyword _update_ for this. Then retrieve all records from the table. Chain the queries into one script.
 
 Notes:
 

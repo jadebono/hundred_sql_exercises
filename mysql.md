@@ -1167,11 +1167,299 @@ where name = 'Zippo' and activities = 'dancing';
 
 select * from clown_info;
 
-insert into clown_info (id, name, last_seen, appearance, activities) 
+insert into clown_info (id, name, last_seen, appearance, activities)
 values (6, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing'),
 (10, 'Zippo', 'Millstone Mall', 'F, orange suit, baggy pants', 'dancing');
 
 select * from clown_info
+```
+
+---
+
+## `Question 36 - Updating a record with DELETE and INSERT`
+
+Create a table called `drink_info` with the following columns: ID (int), DRINK_NAME (varchars(20)), COST (dec(2,1)), CARBS (dec(3,1)) COLOUR (varchar(10)), ICE (char(1)), CALORIES (number). ID should be required, and so should be DRINK_NAME. Insert the following values into it:
+
+(0, 'Blackthorn', 3, 8.4, 'yellow', 'Y', 33)  
+(1, 'Blue Moon', 2.5, 3.2, 'blue', 'Y', 12)  
+(2, 'Oh My Gosh', 3.5, 8.6, 'orange', 'Y', 35)  
+(3, 'Lime Fizz', 2.5, 5.4, 'green','Y', 24)  
+(4, 'Kiss on the Lips', 5.5, 42.5, 'purple', 'Y', 171)  
+(5, 'Hot Gold', 3.2, 32.1, 'orange', 'N', 135)  
+(6, 'Lone Tree', 3.6, 4.2, 'red', 'Y', 17)  
+(7, 'Greyhound', 4,14, 'yellow', 'Y', 50)  
+(8, 'Indian Summer', 2.8, 7.2, 'brown', 'N', 30)  
+(9, 'Bull Frog', 2.6, 21.5, 'tan', 'Y', 80)  
+(10, 'Soda and It', 3.8, 4.7, 'red', 'N', 19)
+
+Now with that done, write the following queries:
+
+1. Retrieve all the records of the new table;
+1. Change the CALORIES of 'Kiss on the Lips' to 170;
+1. Change the 'yellow' values of the COLOUR to 'gold';
+1. Make all the drinks that COST 2.50 COST 3.50;
+1. Make all the drinks that currently COST 3.50 now COST 4.50;
+1. Retrieve all the records of the table as it is now;
+1. Delete the table and recreate it with the original values.
+1. Chain all queries into one script.
+
+Notes:
+
+1. For this exercise, use the _delete_ keyword and _insert_ to insert the updated records;
+2. After you carry out the changes, retrieve all the records.
+3. Be very careful when changing the cost. The sequence matters very much unless you want to change all drinks costing both 2.50 and 3.50 to 4.50.
+
+Solution:
+
+```sql
+CREATE TABLE drink_info (
+    id INT NOT NULL,
+    drink_name VARCHAR(20) NOT NULL,
+    cost DEC(3,1),
+    carbs DEC(4,1),
+    colour VARCHAR(10),
+    ice CHAR(1),
+    calories INT,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO drink_info (id, drink_name, cost, carbs, colour, ice, calories) VALUES
+(0, 'Blackthorn', 3.0, 8.4, 'yellow', 'Y', 33),
+(1, 'Blue Moon', 2.5, 3.2, 'blue', 'Y', 12),
+(2, 'Oh My Gosh', 3.5, 8.6, 'orange', 'Y', 35),
+(3, 'Lime Fizz', 2.5, 5.4, 'green','Y', 24),
+(4, 'Kiss on the Lips', 5.5, 42.5, 'purple', 'Y', 171),
+(5, 'Hot Gold', 3.2, 32.1, 'orange', 'N', 135),
+(6, 'Lone Tree', 3.6, 4.2, 'red', 'Y', 17),
+(7, 'Greyhound', 4.0, 14.0, 'yellow', 'Y', 50),
+(8, 'Indian Summer', 2.8, 7.2, 'brown', 'N', 30),
+(9, 'Bull Frog', 2.6, 21.5, 'tan', 'Y', 80),
+(10, 'Soda and It', 3.8, 4.7, 'red', 'N', 19);
+
+-- Update the CALORIES of 'Kiss on the Lips' to 170
+DELETE FROM drink_info WHERE drink_name = 'Kiss on the Lips' AND calories = 171;
+INSERT INTO drink_info (id, drink_name, cost, carbs, colour, ice, calories) VALUES
+(4, 'Kiss on the Lips', 5.5, 42.5, 'purple', 'Y', 170);
+
+-- Change the 'yellow' values of the COLOUR to 'gold'
+DELETE FROM drink_info WHERE colour = 'yellow';
+INSERT INTO drink_info (id, drink_name, cost, carbs, colour, ice, calories) VALUES
+(0, 'Blackthorn', 3.0, 8.4, 'gold', 'Y', 33),
+(7, 'Greyhound', 4.0, 14.0, 'gold', 'Y', 50);
+
+-- Make all the drinks that COST 2.50 COST 3.50
+DELETE FROM drink_info WHERE cost = 2.5;
+INSERT INTO drink_info (id, drink_name, cost, carbs, colour, ice, calories) VALUES
+(1, 'Blue Moon', 3.5, 3.2, 'blue', 'Y', 12),
+(3, 'Lime Fizz', 3.5, 5.4, 'green', 'Y', 24);
+
+-- Make all the drinks that currently COST 3.50 now COST 4.50
+DELETE FROM drink_info WHERE cost = 3.5;
+INSERT INTO drink_info (id, drink_name, cost, carbs, colour, ice, calories) VALUES
+(1, 'Blue Moon', 4.5, 3.2, 'blue', 'Y', 12),
+(3, 'Lime Fizz', 4.5, 5.4, 'green', 'Y', 24),
+(2, 'Oh My Gosh', 4.5, 8.6, 'orange', 'Y', 35);
+
+-- Retrieve all the records of the table as it is now
+SELECT * FROM drink_info;
+
+-- Delete the table and recreate it with the original values
+DROP TABLE drink_info;
+
+CREATE TABLE drink_info (
+    id INT NOT NULL,
+    drink_name VARCHAR(20) NOT NULL,
+    cost DEC(3,1),
+    carbs DEC(4,1),
+    colour VARCHAR(10),
+    ice CHAR(1),
+    calories INT,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO drink_info (id, drink_name, cost, carbs, colour, ice, calories) VALUES
+(0, 'Blackthorn', 3.0, 8.4, 'yellow', 'Y', 33),
+(1, 'Blue Moon', 2.5, 3.2, 'blue', 'Y', 12),
+(2, 'Oh My Gosh', 3.5, 8.6, 'orange', 'Y', 35),
+(3, 'Lime Fizz', 2.5, 5.4, 'green','Y', 24),
+(4, 'Kiss on the Lips', 5.5, 42.5, 'purple', 'Y', 171),
+(5, 'Hot Gold', 3.2, 32.1, 'orange', 'N', 135),
+(6, 'Lone Tree', 3.6, 4.2, 'red', 'Y', 17),
+(7, 'Greyhound', 4.0, 14.0, 'yellow', 'Y', 50),
+(8, 'Indian Summer', 2.8, 7.2, 'brown', 'N', 30),
+(9, 'Bull Frog', 2.6, 21.5, 'tan', 'Y', 80),
+(10, 'Soda and It', 3.8, 4.7, 'red', 'N', 19);
+```
+
+---
+
+## `Question 37 - Updating a column with UPDATE`
+
+Update the table `coffee_reviews` to change all values of 'plain glazed' in the column COFFEE\*TYPE to 'glazed'. Use the keyword _update_ for this. Then retrieve all records from the table. Chain the queries into one script.
+
+Notes:
+
+1. You need to use the keyword _update_;
+1. And then select the column using _set_;
+1. You can use _where_ and related as per normal.
+
+Solution:
+
+```sql
+update coffee_reviews
+set coffee_type = 'glazed'
+where coffee_type = 'plain glazed';
+
+select * from  coffee_reviews;
+
+```
+
+---
+
+## `Question 38 - Updating multiple columns with UPDATE`
+
+Update the table `my_contacts` with the value 'UK' in the column LOCATION and the value 'single' in the column STATUS with the values 'Malta' and 'married' respectively.
+
+Notes:
+
+1. in the line starting with the keyword _set_ separate multiple columns with a , (comma);
+
+Solution:
+
+```sql
+update my_contacts
+set location = 'Malta', status = 'married'
+where location = 'UK' and status = 'single';
+```
+
+---
+
+## `Question 39 - Revisiting Question 36`
+
+In Question 36, you updated the records of table `drink_info` with a cumbersome combination of _delete_ and _insert_. Let's do it again using _set_. The required tasks are:
+
+1 Change the CALORIES of 'Kiss on the Lips' to 170;
+
+1. Change the 'yellow' values of the COLOUR to 'gold';
+1. Make all the drinks that COST 2.50 COST 3.50;
+1. Make all the drinks that currently COST 3.50 now COST 4.50;
+1. Retrieve all the records of the table as it is now;
+1. Delete the table and recreate using the original records;
+1. Chain all queries into one script.
+
+Solution:
+
+```sql
+update drink_info
+set calories = 170
+where drink_name = 'Kiss on the Lips';
+
+update drink_info
+set colour = 'gold'
+where colour = 'yellow';
+
+update drink_info
+set cost = 4.50
+where cost = 3.50;
+
+update drink_info
+set cost = 3.50
+where cost = 2.50;
+
+select * from drink_info;
+
+drop table drink_info;
+
+create table drink_info (
+    id int not null,
+    drink_name varchar(20) not null,
+    cost dec(2,1),
+    carbs dec(3,1),
+    colour varchar(10),
+    ice char(1),
+    calories int,
+    primary key (id)
+);
+
+insert into drink_info (id, drink_name, cost, carbs, colour, ice, calories) values
+(0, 'Blackthorn', 3, 8.4, 'yellow', 'Y', 33),
+(1, 'Blue Moon', 2.5, 3.2, 'blue', 'Y', 12),
+(2, 'Oh My Gosh', 3.5, 8.6, 'orange', 'Y', 35),
+(3, 'Lime Fizz', 2.5, 5.4, 'green','Y', 24),
+(4, 'Kiss on the Lips', 5.5, 42.5, 'purple', 'Y', 171),
+(5, 'Hot Gold', 3.2, 32.1, 'orange', 'N', 135),
+(6, 'Lone Tree', 3.6, 4.2, 'red', 'Y', 17),
+(7, 'Greyhound', 4,14, 'yellow', 'Y', 50),
+(8, 'Indian Summer', 2.8, 7.2, 'brown', 'N', 30),
+(9, 'Bull Frog', 2.6, 21.5, 'tan', 'Y', 80),
+(10, 'Soda and It', 3.8, 4.7, 'red', 'N', 19);
+```
+
+---
+
+## `Question 40 - Using Case`
+
+In the previous question, using _update_ and _set_ made updating records far more efficient, but there are still inefficiencies and redundancies. Let's use conditionals to carry out the required changes. For your reference, these are the required changes:
+
+1 Change the CALORIES of 'Kiss on the Lips' to 170;
+
+1. Change the 'yellow' values of the COLOUR to 'gold';
+1. Make all the drinks that COST 2.50 COST 3.50;
+1. Make all the drinks that currently COST 3.50 now COST 4.50;
+1. Retrieve all the records of the table as it is now;
+1. Delete the table and recreate using the original records;
+1. Chain all queries into one script.
+
+Notes:
+
+1. Combine _set_ with _case_, and _when_... _else_;
+1. End each conditional clause with _end_ + comma, except the last _end_ which should be ended with a semicomma.
+1. You can use _where_ clauses after the _case_ expression;
+1. You can use _case_ with _select_, _insert_, _delete_ and _update_.
+
+```sql
+UPDATE drink_info
+SET calories = CASE
+    WHEN drink_name = 'Kiss on the Lips' THEN 170
+    ELSE calories
+END,
+colour = CASE
+    WHEN colour = 'yellow' THEN 'gold'
+    ELSE colour
+END,
+cost = CASE
+    WHEN cost = 3.50 THEN 4.50
+    WHEN cost = 2.50 THEN 3.50
+    ELSE cost
+END;
+
+select * from drink_info;
+
+drop table drink_info;
+
+create table drink_info (
+    id int not null,
+    drink_name varchar(20) not null,
+    cost dec(2,1),
+    carbs dec(3,1),
+    colour varchar(10),
+    ice char(1),
+    calories int,
+    primary key (id)
+);
+
+insert into drink_info (id, drink_name, cost, carbs, colour, ice, calories) values
+(0, 'Blackthorn', 3, 8.4, 'yellow', 'Y', 33),
+(1, 'Blue Moon', 2.5, 3.2, 'blue', 'Y', 12),
+(2, 'Oh My Gosh', 3.5, 8.6, 'orange', 'Y', 35),
+(3, 'Lime Fizz', 2.5, 5.4, 'green','Y', 24),
+(4, 'Kiss on the Lips', 5.5, 42.5, 'purple', 'Y', 171),
+(5, 'Hot Gold', 3.2, 32.1, 'orange', 'N', 135),
+(6, 'Lone Tree', 3.6, 4.2, 'red', 'Y', 17),
+(7, 'Greyhound', 4,14, 'yellow', 'Y', 50),
+(8, 'Indian Summer', 2.8, 7.2, 'brown', 'N', 30),
+(9, 'Bull Frog', 2.6, 21.5, 'tan', 'Y', 80),
+(10, 'Soda and It', 3.8, 4.7, 'red', 'N', 19);
 ```
 
 ---
