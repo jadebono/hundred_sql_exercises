@@ -1463,3 +1463,248 @@ insert into drink_info (id, drink_name, cost, carbs, colour, ice, calories) valu
 ```
 
 ---
+
+## `Question 41 - Basic mathematical operators`
+
+In the table `drink_info`, add 1 to the values in the column COST.
+
+Notes:
+
+1. You can use mathematical operators for this kind of operation;
+1. You can obviously use _where_ to carry out this kind of update on specific records;
+1. But to change the values in all records, you don't need to.
+
+Solution:
+
+```sql
+update drink_info
+set cost = cost + 1;
+```
+
+---
+
+## `Question 42 - A better way of defining a primary key`
+
+We can define a primary key more simply by defining it as a contstraint. Delete the `drink_info` table and recreate it defining ID as the primary key with a constraint. Then repopulate it with the latest values.
+
+Solution:
+
+```sql
+drop table drink_info;
+
+create table drink_info (
+    id int not null primary key,
+    drink_name varchar(20) not null,
+    cost dec(2,1),
+    carbs dec(3,1),
+    colour varchar(10),
+    ice char(1),
+    calories int
+);
+
+insert into drink_info (id, drink_name, cost, carbs, colour, ice, calories) values
+(0, 'Blackthorn', 3, 8.4, 'yellow', 'Y', 33),
+(1, 'Blue Moon', 2.5, 3.2, 'blue', 'Y', 12),
+(2, 'Oh My Gosh', 3.5, 8.6, 'orange', 'Y', 35),
+(3, 'Lime Fizz', 2.5, 5.4, 'green','Y', 24),
+(4, 'Kiss on the Lips', 5.5, 42.5, 'purple', 'Y', 171),
+(5, 'Hot Gold', 3.2, 32.1, 'orange', 'N', 135),
+(6, 'Lone Tree', 3.6, 4.2, 'red', 'Y', 17),
+(7, 'Greyhound', 4,14, 'yellow', 'Y', 50),
+(8, 'Indian Summer', 2.8, 7.2, 'brown', 'N', 30),
+(9, 'Bull Frog', 2.6, 21.5, 'tan', 'Y', 80),
+(10, 'Soda and It', 3.8, 4.7, 'red', 'N', 19);
+```
+
+---
+
+## `Question 43 - Altering your table`
+
+Add a PHONE_NUMBER column (varchar(10)) to your `my_contacts` table. Then update the table to add a 10-digit phone number to all your columns. Use these randomly generated numbers:
+
+'3289782804'  
+'5403440201'  
+'6246590939'  
+'5437296493'  
+'7942538662'  
+'5752354363'  
+'1818916197'  
+'9967811632'  
+'9989416550'  
+'5862753626'  
+'1465135883'  
+'1285101688'
+
+Best use _case_ for this update. Then retrieve all the updated records. Chain all queries into one script.
+
+Notes:
+
+1. For this exercise, you will need to use the _alter_ keyword with _table_;
+1. _alter_ is used to modify the structure of an existing database object, such as a table, view, index, or user, though the most common use for _alter_ is with a table;
+1. With _alter_ you can _add_/_drop_/_modify_/_rename_ columns;
+1. You can also _add constraint_/_drop constraint_/_enable constraint_/_disable constraint_;
+1. Moreover, you can _rename_ a table;
+1. Oracle SQL does not support _before_ and _after_ keywords to specify the new column before or after other columns, so the new column is always appended to the end of the other columns.
+
+Solution:
+
+```sql
+alter table my_contacts
+add column phone_number varchar(10)
+after email;
+
+update my_contacts
+set phone_number = case
+	WHEN id = 0 THEN  '3289782804'
+    WHEN id = 1 THEN '5403440201'
+    WHEN id = 2 THEN '6246590939'
+	WHEN id = 3 THEN '5437296493'
+	WHEN id = 4 THEN '7942538662'
+	WHEN id = 5 THEN '5752354363'
+	WHEN id = 6 THEN '1818916197'
+	WHEN id = 7 THEN '9967811632'
+	WHEN id = 8 THEN '9989416550'
+	WHEN id = 9 THEN '5862753626'
+	WHEN id = 10 THEN '1465135883'
+	WHEN id = 11 THEN '1285101688'
+	else phone_number
+end;
+
+select * from my_contacts;
+```
+
+---
+
+## `Question 44 - Amend the my_contacts table`
+
+Update the `my_contacts` table to insert the continent in the LOCATION column. For example, if the LOCATION = 'UK', update it to 'UK, Europe'. Best use _case_ for this exercise.
+
+Solution:
+
+```sql
+update my_contacts
+set location = case
+	WHEN location = 'Argentina' THEN  'Argentina, South America'
+    WHEN location = 'Belgium' THEN  'Belgium, Europe'
+    WHEN location = 'UK' THEN  'UK, Europe'
+	WHEN location = 'Denmark' THEN  'Denmark, Europe'
+	WHEN location = 'Greece' THEN  'Greece, Europe'
+	WHEN location = 'Hungary' THEN  'Hungary, Europe'
+	WHEN location = 'India' THEN  'India, Asia'
+	WHEN location = 'Jordan' THEN  'Jordan, Asia'
+	WHEN location = 'Malta' THEN  'Malta, Europe'
+	else phone_number
+end;
+```
+
+---
+
+## `Question 45 - Create a new table to practise altering`
+
+Create a table called `projekts`. Give it the following columns: NUM, DESCRIPTIONOFPROJ (varchar(50)), CONTRACTORONJOB (varchar(20)). Populate it with the following data:
+
+(0, 'outside house painting', 'Murphy')  
+(1, 'kitchen remodel', 'Valdez')  
+(2, 'wood floor installation', 'Keller')  
+(3, 'roofing', 'Jackson')
+
+Solution:
+
+```sql
+create table projekts (
+    num int,
+    descriptionofproj varchar(50),
+    contractoronjob varchar(20)
+);
+
+insert into projekts (num, descriptionofproj, contractoronjob) values
+(0, 'outside house painting', 'Murphy'),
+(1, 'kitchen remodel', 'Valdez'),
+(2, 'wood floor installation', 'Keller'),
+(3, 'roofing', 'Jackson');
+```
+
+---
+
+## `Question 46 - Rename the table`
+
+Rename the table `projekts` to `projects`.
+
+Notes:
+
+1. use _alter table_;
+1. with _rename to_.
+
+Solution:
+
+```sql
+alter table projekts
+rename to project_list;
+```
+
+---
+
+## `Question 47 - Add a new column`
+
+add new column PHONE_NUMBER of datatype number. Also add a new column EMAIL of dataytpe varchar2(15) with no constraints.
+
+Solution:
+
+```sql
+alter table project_list
+add phone_number int;
+
+alter table project_list
+add email varchar(15);
+```
+
+---
+
+## `Question 48 - Modify the columns`
+
+Modify PHONE_NUMBER to varchar(10) without a constraint.
+
+Solution:
+
+```sql
+alter table project_list
+modify phone_number varchar(10);
+```
+
+---
+
+## `Question 49 - Rename the NUM column and modify it to a primary key`
+
+Rename the column NUM to ID and turn it into the primary key for this table.
+
+Note:
+
+1. Obviously you will have to modify the column with the _not null_ as well as the _primary key_ constraints.
+
+Solution:
+
+```sql
+alter table project_list
+rename column num to id;
+
+alter table project_list
+modify id int not null primary key;
+```
+
+---
+
+## `Question 50 - Rename the specified columns`
+
+Rename the columns DESCRIPTIONOFPROJ to PROJECT_DESCRIPTION and CONTRACTORONJOB to CONTRACTOR.
+
+Solution:
+
+```sql
+alter table project_list
+rename column descriptionofproj to project_description;
+
+alter table project_list
+rename column contractoronjob to contractor;
+```
+
+---

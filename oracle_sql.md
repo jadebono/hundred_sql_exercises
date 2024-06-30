@@ -1551,6 +1551,8 @@ We can define a primary key more simply by defining it as a contstraint. Delete 
 Solution:
 
 ```sql
+drop table drink_info;
+
 create table drink_info (
     id number not null primary key,
     drink_name varchar2(20) not null,
